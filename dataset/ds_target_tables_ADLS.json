@@ -1,0 +1,39 @@
+{
+	"name": "ds_target_tables_ADLS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Awproject_datalake",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"p_sink_folder": {
+				"type": "string"
+			},
+			"p_sink_file": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().p_sink_file",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('Full/',formatDateTime(utcNow(),'yyyy/MM/dd'),'/',dataset().p_sink_folder)",
+					"type": "Expression"
+				},
+				"fileSystem": "bronze"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
